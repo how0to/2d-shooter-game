@@ -34,4 +34,5 @@ func shoot():
 	var bullet = preload("res://Scenes/bullet.tscn").instantiate()
 	bullet.global_position = PlayerHitbox.global_position
 	bullet.direction = MouseDir
+	bullet.rotation = bullet.direction.angle()
 	get_tree().get_current_scene().add_child(bullet)

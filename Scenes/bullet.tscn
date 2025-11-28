@@ -1,20 +1,23 @@
 [gd_scene load_steps=4 format=3 uid="uid://b0u04db7nv2ls"]
 
 [ext_resource type="Script" uid="uid://bu4wor3vli64x" path="res://Scenes/bullet.gd" id="1_oduel"]
-[ext_resource type="Texture2D" uid="uid://bx3jdsj2wa3l4" path="res://icon.svg" id="1_v7oki"]
+[ext_resource type="Texture2D" uid="uid://d11ou4fyxplya" path="res://assets/sprites/bullet.png" id="2_oduel"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_oduel"]
 size = Vector2(64, 64)
 
 [node name="Bullet" type="Node2D"]
-scale = Vector2(0.5, 0.5)
+scale = Vector2(0.1, 0.1)
 script = ExtResource("1_oduel")
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.5, 0.5)
-texture = ExtResource("1_v7oki")
 
 [node name="Hitbox" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
 shape = SubResource("RectangleShape2D_oduel")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(-1.9073486e-06, -1.9073486e-06)
+rotation = 1.5707964
+scale = Vector2(1.9999999, 1.9999999)
+texture = ExtResource("2_oduel")
