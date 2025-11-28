@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://k1igtuavoisa"]
+[gd_scene load_steps=3 format=3 uid="uid://k1igtuavoisa"]
 
 [ext_resource type="PackedScene" uid="uid://va4n2dy8fbsw" path="res://Scenes/player.tscn" id="1_80nbo"]
+[ext_resource type="Script" uid="uid://bc0l6lhheps31" path="res://Scenes/EnemySpawner.gd" id="2_qxrlw"]
 
 [node name="Game" type="Node2D"]
 
@@ -8,3 +9,6 @@
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 zoom = Vector2(2, 2)
+
+[node name="Node" type="Node" parent="."]
+script = ExtResource("2_qxrlw")
