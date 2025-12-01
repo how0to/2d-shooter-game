@@ -11,4 +11,8 @@ func _physics_process(delta: float) -> void:
 func _on_hitbox_area_entered(area: Area2D) -> void:
 	if area.is_in_group("enemy"):
 		var AreaParent = area.get_parent()
-		AreaParent.queue_free()
+	# Only damage if that node has the function
+	if AreaParent.has_method("take_damage"):
+		enemy.take_damage()
+
+	queue_free()   # Destroy the bullet after hit
