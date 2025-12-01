@@ -1,6 +1,6 @@
 extends Node2D
 
-@export var max_health: int = 10
+@export var max_health: int = 100
 var health: float = max_health
 
 func _ready():

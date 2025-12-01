@@ -1,7 +1,7 @@
 extends Node
 
 @export var SpawnDistance: float = 0.0      # How far off-screen to spawn
-@export var SpawnRate: float = 1.5            # Seconds between spawns
+@export var SpawnRate: float = 1.5           # Seconds between spawns
 #@export var player_path: NodePath
 
 @onready var player: CharacterBody2D = $"../Player"
