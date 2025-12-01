@@ -37,5 +37,6 @@ func spawn_enemy():
 	var spawn_pos = player.global_position + offset
 
 	var enemy = EnemyScene.instantiate()
+	enemy.get_node("Hitbox").add_to_group("enemy")
 	enemy.global_position = spawn_pos
 	get_tree().current_scene.add_child(enemy)

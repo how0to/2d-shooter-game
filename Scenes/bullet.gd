@@ -1,7 +1,14 @@
 extends Node2D
 
 @export var speed: float = 1000.0
+@onready var hitbox: Area2D = $Hitbox
+
 var direction: Vector2 = Vector2.ZERO
 
 func _physics_process(delta: float) -> void:
 	position += direction * speed * delta
+
+func _on_hitbox_area_entered(area: Area2D) -> void:
+	if area.is_in_group("enemy"):
+		var AreaParent = area.get_parent()
+		AreaParent.queue_free()
