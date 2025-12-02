@@ -1,13 +1,14 @@
 extends CharacterBody2D
 
-@onready var PlayerHitbox: CollisionShape2D = $CollisionShape2D
+@onready var PlayerHitbox: Area2D = $Area2D
 
 const SPEED = 300.0
 const BulletSpeed = 1000
 const JUMP_VELOCITY = -400.0
-var health: float = 1
+var max_health: int = 1
+var health: float = max_health
 var MouseDir = 0
-var PlayerTemplate = preload("uid://va4n2dy8fbsw")
+var PlayerTemplate = preload("res://Scenes/player.tscn")
 
 func _ready() -> void:
 	var Player = PlayerTemplate.instantiate()

@@ -12,8 +12,7 @@ func take_damage(amount: float):
 	if health < 0.1:
 		queue_free()
 
-
-func _on_hitbox_area_entered(area: Area2D) -> void:
+func _on_hitbox_area_entered(area: Area2D) -> void: 
 	if area.is_in_group("Player"):
 		print("Is player")
 	else:
