@@ -1,6 +1,6 @@
 extends Node
 
-@export var SpawnDistance: float = 500.0      # How far from player to spawn
+@export var SpawnDistance: float = 0.0      # How far from player to spawn
 @export var SpawnRate: float = 1.5           # Seconds between spawns
 #@export var player_path: NodePath
 
@@ -70,4 +70,4 @@ func spawn_enemy():
 	var enemy = EnemyScene.instantiate()
 	enemy.get_node("Hitbox").add_to_group("enemy")
 	enemy.global_position = spawn_pos
-	get_tree().current_scene.add_child(enemy)
+	get_tree().current_scene.add_child(enemy) 

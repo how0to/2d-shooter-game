@@ -8,12 +8,7 @@ const JUMP_VELOCITY = -400.0
 var max_health: int = 1
 var health: float = max_health
 var MouseDir = 0
-var PlayerTemplate = preload("res://Scenes/player.tscn")
 
-func _ready() -> void:
-	var Player = PlayerTemplate.instantiate()
-	get_tree().get_current_scene().add_child(Player)
-	Player.add_to_group("Player")
 
 func _physics_process(_delta: float) -> void:
 	MouseDir = (get_global_mouse_position() - global_position).normalized()

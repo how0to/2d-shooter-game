@@ -1,10 +1,14 @@
-extends Node2D
+extends CharacterBody2D
 
 @export var max_health: int = 100
 var health: float = max_health
 var damage: float = 50
+var player: CharacterBody2D
+var speed = 100
 
 func _ready():
+	# Find the player in the scene
+	player = get_tree().get_first_node_in_group("Player")
 	health = max_health
 
 func take_damage(amount: float):
@@ -24,3 +28,9 @@ func _on_hitbox_area_entered(area: Area2D) -> void:
 			AreaParent.take_damage(damage)
 		else:
 			print("has no take damage")
+
+func _physics_process(delta):
+	if player:
+		var dir = (player.global_position - global_position).normalized()
+		velocity = dir * speed
+		move_and_slide()
