@@ -2,13 +2,14 @@ extends CharacterBody2D
 
 @onready var PlayerHitbox: Area2D = $Area2D
 
-const SPEED = 300.0
+const SPEED = 120.0
 const BulletSpeed = 1000
 const JUMP_VELOCITY = -400.0
-var max_health: int = 1
+var max_health: int = 1000
 var health: float = max_health
 var MouseDir = 0
 
+signal player_spawned(player)
 
 func _physics_process(_delta: float) -> void:
 	MouseDir = (get_global_mouse_position() - global_position).normalized()

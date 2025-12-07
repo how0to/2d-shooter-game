@@ -3,11 +3,10 @@ extends Node
 var PlayerTemplate = preload("res://Scenes/player.tscn")
 
 func _ready() -> void:
-	print("Ready")
+	#var SpawnLocation: Node2D = get_node("/Game/SpawnLocation")
 	var Player = PlayerTemplate.instantiate()
-	print("Player exists")
-	get_tree().get_current_scene().add_child(Player)
-	print("Player parent set")
+	get_tree().get_current_scene().add_child.call_deferred(Player)
 	Player.add_to_group("Player")
 	Player.global_position = Vector2(0,0)
-	print("WHY PLS WORK")
+	#Player.global_position = SpawnLocation
+	Player.player_spawned.emit(Player)

@@ -19,6 +19,10 @@ config/icon="res://icon.svg"
 
 settings/stdout/print_fps=true
 
+[global_group]
+
+Player=""
+
 [input]
 
 Fire={

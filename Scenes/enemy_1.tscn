@@ -42,13 +42,14 @@ animations = [{
 }],
 "loop": true,
 "name": &"default",
-"speed": 5.0
+"speed": 15.0
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jwqgc"]
 size = Vector2(14, 12)
 
 [node name="Enemy1" type="CharacterBody2D"]
+z_index = 1
 position = Vector2(0, -12)
 script = ExtResource("1_0a874")
 
@@ -56,7 +57,7 @@ script = ExtResource("1_0a874")
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_arec4")
 autoplay = "default"
-frame_progress = 0.24352221
+frame_progress = 0.75797045
 
 [node name="Hitbox" type="Area2D" parent="."]
 

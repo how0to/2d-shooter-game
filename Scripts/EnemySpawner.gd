@@ -1,18 +1,20 @@
 extends Node
 
 @export var SpawnDistance: float = 0.0      # How far from player to spawn
-@export var SpawnRate: float = 1.5           # Seconds between spawns
+@export var SpawnRate: float = 1.5          # Seconds between spawns
 #@export var player_path: NodePath
 
-@onready var player: CharacterBody2D = $"../Player"
+@onready var player: CharacterBody2D = null
 var EnemyScene = preload("res://Scenes/enemy_1.tscn")
+var WaveBreak = false
+var Mode = "inf"
 
 func _ready():
 	#player = get_node(player_path)
-	spawn_enemy()
-	spawn_timer()
+	SpawnEnemy(EnemyScene)
+	SpawnTimer()
 
-func get_camera_bounds() -> Rect2:
+func GetCameraBounds() -> Rect2:
 	var cam := get_viewport().get_camera_2d()
 	if cam == null:
 		return Rect2()
@@ -29,8 +31,8 @@ func get_camera_bounds() -> Rect2:
 
 	return Rect2(top_left, world_size)
 
-func get_spawn_position() -> Vector2:
-	var rect = get_camera_bounds()
+func GetSpawnPosition() -> Vector2:
+	var rect = GetCameraBounds()
 	var margin = 200.0
 
 	var side = randi() % 4
@@ -50,24 +52,27 @@ func get_spawn_position() -> Vector2:
 
 	return Vector2.ZERO
 
-func spawn_timer():
-	spawn_enemy()
+func SpawnTimer():
+	SpawnEnemy(EnemyScene)
 	await get_tree().create_timer(SpawnRate).timeout
-	spawn_timer()
+	SpawnTimer()
 
-func spawn_enemy():
+func SpawnEnemy(EnemyTemplate):
 	if player == null:
+		player = get_tree().get_root().find_child("Player", true, false)
+		return
+	if WaveBreak:
 		return
 
 	# Optional spawn rate scaling
-	if SpawnRate > 0.001:
-		SpawnRate *= 0.99
-	else:
-		SpawnRate = 0.001
+	if Mode == "inf":
+		if SpawnRate > 0.001:
+			SpawnRate *= 0.99
+		else:
+			SpawnRate = 0.001
+	var spawn_pos = GetSpawnPosition()
 
-	var spawn_pos = get_spawn_position()
-
-	var enemy = EnemyScene.instantiate()
+	var enemy = EnemyTemplate.instantiate()
 	enemy.get_node("Hitbox").add_to_group("enemy")
 	enemy.global_position = spawn_pos
-	get_tree().current_scene.add_child(enemy) 
+	get_tree().current_scene.add_child.call_deferred(enemy) 

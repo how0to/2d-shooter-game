@@ -4,7 +4,7 @@ extends CharacterBody2D
 var health: float = max_health
 var damage: float = 50
 var player: CharacterBody2D
-var speed = 100
+var speed = 150
 
 func _ready():
 	# Find the player in the scene
@@ -18,18 +18,12 @@ func take_damage(amount: float):
 
 func _on_hitbox_area_entered(area: Area2D) -> void: 
 	if area.is_in_group("Player"):
-		print("Is player")
-	else:
-		print("Is not player")
 		var AreaParent = area.get_parent()
 	# Only damage if that node has the function
 		if AreaParent.has_method("take_damage"):
-			print("do daamge")
 			AreaParent.take_damage(damage)
-		else:
-			print("has no take damage")
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	if player:
 		var dir = (player.global_position - global_position).normalized()
 		velocity = dir * speed
