@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3 uid="uid://d2d8tveu3gfon"]
+
+[ext_resource type="Texture2D" uid="uid://didr7wtqqql7m" path="res://assets/sprites/LoadingCircleUnfilled.png" id="1_f7ia4"]
+[ext_resource type="Texture2D" uid="uid://df1qt7s4kpx3t" path="res://assets/sprites/LoadingCircleFilled.png" id="2_o6cku"]
+
+[node name="CDCircle" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="."]
+modulate = Color(1, 1, 1, 0.5882353)
+texture_filter = 1
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+fill_mode = 4
+nine_patch_stretch = true
+texture_under = ExtResource("1_f7ia4")
+texture_progress = ExtResource("2_o6cku")

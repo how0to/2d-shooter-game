@@ -57,4 +57,18 @@ position = Vector2(0, 2)
 shape = SubResource("RectangleShape2D_3smsa")
 
 [node name="Camera2D" type="Camera2D" parent="."]
-zoom = Vector2(2, 2)
+zoom = Vector2(1.5, 1.5)
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+
+[node name="Label" type="Label" parent="Control"]
+z_index = 4096
+layout_mode = 0
+offset_left = -384.0
+offset_top = 194.0
+offset_right = -334.0
+offset_bottom = 217.0
+text = "100%"
+clip_text = true

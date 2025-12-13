@@ -1,7 +1,7 @@
 extends Node
 
 @export var SpawnDistance: float = 0.0      # How far from player to spawn
-@export var SpawnRate: float = 1.5          # Seconds between spawns
+@export var SpawnRate: float = 5         # Seconds between spawns
 #@export var player_path: NodePath
 
 @onready var player: CharacterBody2D = null
@@ -53,9 +53,10 @@ func GetSpawnPosition() -> Vector2:
 	return Vector2.ZERO
 
 func SpawnTimer():
-	SpawnEnemy(EnemyScene)
-	await get_tree().create_timer(SpawnRate).timeout
-	SpawnTimer()
+	if Mode == "inf":
+		SpawnEnemy(EnemyScene)
+		await get_tree().create_timer(SpawnRate).timeout
+		SpawnTimer()
 
 func SpawnEnemy(EnemyTemplate):
 	if player == null:
@@ -69,7 +70,7 @@ func SpawnEnemy(EnemyTemplate):
 		if SpawnRate > 0.001:
 			SpawnRate *= 0.99
 		else:
-			SpawnRate = 0.001
+			SpawnRate = 0
 	var spawn_pos = GetSpawnPosition()
 
 	var enemy = EnemyTemplate.instantiate()
