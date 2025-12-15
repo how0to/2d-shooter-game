@@ -1,6 +1,9 @@
 extends CharacterBody2D
 
 @onready var PlayerHitbox: Area2D = $Area2D
+@onready var InvButton: TextureButton = $InvUI/InvButton
+@onready var InvUI: Control = $InvUI
+@onready var ScoreLabel: Label = $Control/Label
 
 const SPEED = 120.0
 const BulletSpeed = 1000
@@ -10,13 +13,26 @@ var health: float = max_health
 var MouseDir = 0
 var shoot_cooldown := 1.25  # seconds between shots
 var last_shot_time := 0.0  # last time we fired
-
+var level: int = 0
+var score: int = 0
+var InvOpen := false
+var InvClosedPos: Vector2
+var InvTween: Tween
+var AnimSpeed = 0.125
+var xp = 0
+var ReqXp = 100
 signal player_spawned(player)
 
+func _ready():
+	add_to_group("Player")
+	Data.register_player(self)
+	player_spawned.emit(self)
+	InvClosedPos = InvUI.position
+
 func _physics_process(_delta: float) -> void:
-	MouseDir = (get_global_mouse_position() - global_position).normalized()
-	if Input.is_action_just_pressed("Fire"):
-		try_shoot()
+	#MouseDir = (get_global_mouse_position() - global_position).normalized()
+	#if Input.is_action_just_pressed("Fire"):
+		#try_shoot()
 	# Add the gravity.
 	#if not is_on_floor():
 		#velocity += get_gravity() * delta
@@ -41,12 +57,12 @@ func get_cooldown_percent() -> float:
 	var progress = (now - last_shot_time) / shoot_cooldown
 	return clamp(progress, 0.0, 1.0)
 
-func try_shoot():
-	var now = Time.get_ticks_msec() / 1000.0  # convert ms → seconds
-
-	if now - last_shot_time >= shoot_cooldown:
-		shoot()
-		last_shot_time = now
+#func try_shoot():
+	#var now = Time.get_ticks_msec() / 1000.0  # convert ms → seconds
+#
+	#if now - last_shot_time >= shoot_cooldown:
+		#shoot()
+		#last_shot_time = now
 
 func shoot():
 	var bullet = preload("res://Scenes/bullet.tscn").instantiate()
@@ -59,3 +75,35 @@ func take_damage(amount: float):
 	health -= amount
 	if health < 0.1:
 		queue_free()
+
+func LevelUp():
+	level += 1
+
+func InvButtonPressed():
+	InvOpen = !InvOpen
+
+	# Kill existing tween if button is spammed
+	if InvTween and InvTween.is_running():
+		InvTween.kill()
+
+	InvTween = create_tween()
+	InvTween.set_trans(Tween.TRANS_QUAD)
+	InvTween.set_ease(Tween.EASE_OUT)
+
+	var target_pos: Vector2
+
+	if InvOpen:
+		target_pos = InvClosedPos + Vector2(138, 0)
+	else:
+		target_pos = InvClosedPos
+
+	InvTween.tween_property(
+		InvUI,
+		"position",
+		target_pos,
+		AnimSpeed # animation duration (seconds)
+	)
+func UseAbility(AbilityID):
+	match AbilityID:
+		"shoot":
+			shoot()

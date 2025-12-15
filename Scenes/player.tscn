@@ -1,7 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://va4n2dy8fbsw"]
+[gd_scene load_steps=11 format=3 uid="uid://va4n2dy8fbsw"]
 
 [ext_resource type="Texture2D" uid="uid://bd8xrmyjx2wis" path="res://assets/sprites/knight.png" id="1_4flbx"]
 [ext_resource type="Script" uid="uid://cysttuwpm3b8t" path="res://Scripts/player.gd" id="1_v0iea"]
+[ext_resource type="Texture2D" uid="uid://c7jpbvnpjaf81" path="res://assets/sprites/OpenAbilitiesTabButtonUI.png" id="3_6t5aa"]
+[ext_resource type="Script" uid="uid://u64x4nfpsxwa" path="res://Scripts/Inventory.gd" id="3_vgqql"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_cvnsp"]
 atlas = ExtResource("1_4flbx")
@@ -49,6 +51,7 @@ script = ExtResource("1_v0iea")
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_x3wgy")
 autoplay = "default"
+frame_progress = 0.7887528
 
 [node name="Area2D" type="Area2D" parent="." groups=["Player"]]
 
@@ -72,3 +75,43 @@ offset_right = -334.0
 offset_bottom = 217.0
 text = "100%"
 clip_text = true
+
+[node name="InvUI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -524.0
+offset_top = -218.0
+offset_right = -484.0
+offset_bottom = -178.0
+script = ExtResource("3_vgqql")
+
+[node name="ColorRect" type="ColorRect" parent="InvUI"]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 140.0
+offset_bottom = 430.0
+scale = Vector2(0.9983926, 1.0093716)
+color = Color(0.2901961, 0.2901961, 0.2901961, 0.78431374)
+
+[node name="ScrollContainer" type="ScrollContainer" parent="InvUI/ColorRect"]
+layout_mode = 0
+offset_left = -2.0
+offset_top = -2.0
+offset_right = 137.0
+offset_bottom = 428.0
+
+[node name="GridContainer" type="GridContainer" parent="InvUI/ColorRect/ScrollContainer"]
+layout_mode = 2
+columns = 2
+
+[node name="InvButton" type="TextureButton" parent="InvUI"]
+texture_filter = 1
+layout_mode = 0
+offset_left = 140.0
+offset_top = 2.0
+offset_right = 180.0
+offset_bottom = 42.0
+texture_normal = ExtResource("3_6t5aa")
+
+[connection signal="pressed" from="InvUI/InvButton" to="." method="InvButtonPressed"]

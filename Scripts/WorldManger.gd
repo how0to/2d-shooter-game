@@ -30,7 +30,7 @@ func generate_chunk(chunk_coord: Vector2i):
 
 	for x in range(chunk_size):
 		for y in range(chunk_size):
-			var world_x = chunk_coord.x * chunk_size + x
+			#var world_x = chunk_coord.x * chunk_size + x
 			var world_y = chunk_coord.y * chunk_size + y
 			var tile_id = get_tile_for_height(world_y)
 			chunk.set_cell(0, Vector2i(x, y), tile_id)
