@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="AbilityData" load_steps=3 format=3 uid="uid://ob8a14jt6xfa"]
+
+[ext_resource type="Texture2D" uid="uid://d11ou4fyxplya" path="res://assets/sprites/bullet.png" id="1_0q20y"]
+[ext_resource type="Script" uid="uid://b3h4whk8thsit" path="res://Resources/AbilityData.gd" id="1_pgkwe"]
+
+[resource]
+script = ExtResource("1_pgkwe")
+id = "Shoot"
+icon = ExtResource("1_0q20y")
+cooldown = 1.25
+description = "Shoots out 1 bullet towards the cursor"
+ProjectileSpeed = 200.0
+slot = "Main"
+metadata/_custom_type_script = "uid://b3h4whk8thsit"
