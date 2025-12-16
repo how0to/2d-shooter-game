@@ -1,5 +1,7 @@
 extends Control
 
+var AbilityBackground = preload("uid://c3n7di5mvy06")
+
 var Abilities := []
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

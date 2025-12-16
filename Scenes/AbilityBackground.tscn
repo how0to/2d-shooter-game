@@ -1,4 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://c3n7di5mvy06"]
+[gd_scene load_steps=3 format=3 uid="uid://c3n7di5mvy06"]
+
+[ext_resource type="PackedScene" uid="uid://d2d8tveu3gfon" path="res://Scenes/CDCircle.tscn" id="1_1p11f"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_32tud"]
 bg_color = Color(0.19607843, 0.19607843, 0.19607843, 0.6862745)
@@ -16,3 +18,18 @@ layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_32tud")
+
+[node name="CDCircle" parent="Panel" instance=ExtResource("1_1p11f")]
+visible = false
+z_index = 1
+layout_mode = 1
+offset_left = 3.0
+offset_top = 3.0
+offset_right = 3.0
+offset_bottom = 3.0
+scale = Vector2(0.845, 0.845)
+
+[node name="TextureButton" type="TextureButton" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0

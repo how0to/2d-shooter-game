@@ -5,14 +5,16 @@ extends CharacterBody2D
 @onready var InvUI: Control = $InvUI
 @onready var ScoreLabel: Label = $Control/Label
 
+@export var StartingAbilities: Array[AbilityData] = [preload("uid://ob8a14jt6xfa")]
+
 const SPEED = 120.0
 const BulletSpeed = 1000
 const JUMP_VELOCITY = -400.0
-var max_health: int = 1000
-var health: float = max_health
-var MouseDir = 0
-var shoot_cooldown := 1.25  # seconds between shots
-var last_shot_time := 0.0  # last time we fired
+var MaxHealth: int = 1000
+var Health: float = MaxHealth
+var MouseDir: Vector2 = Vector2.ZERO
+var ShootCooldown := 1.25  # seconds between shots
+var LastShotTime := 0.0  # last time we fired
 var level: int = 0
 var score: int = 0
 var InvOpen := false
@@ -32,21 +34,24 @@ func _ready():
 	Data.register_player(self)
 	player_spawned.emit(self)
 	InvClosedPos = InvUI.position
+	for Ability in StartingAbilities:
+		RegisterAbility(Ability)
 
-func _input(event):
-	if Input.is_action_pressed("Fire"):
-		trigger_slot("Main")
+func _input(Event: InputEvent) -> void:
+	if Event.is_action_pressed("Main"):
+		print("Main pressed")
+		TriggerSlot("Main")
 
-	if Input.is_action_just_pressed("AbilityKey1"):
-		trigger_slot("Secondary")
+	if Event.is_action_pressed("AbilityKey1"):
+		TriggerSlot("Secondary")
 
-	if Input.is_action_just_pressed("AbilityKey2"):
-		trigger_slot("Utility")
+	if Event.is_action_pressed("AbilityKey2"):
+		TriggerSlot("Utility")
 
 func _physics_process(_delta: float) -> void:
-	#MouseDir = (get_global_mouse_position() - global_position).normalized()
+	MouseDir = (get_global_mouse_position() - global_position).normalized()
 	#if Input.is_action_just_pressed("Fire"):
-		#try_shoot()
+		#try_Shoot()
 	# Add the gravity.
 	#if not is_on_floor():
 		#velocity += get_gravity() * delta
@@ -68,17 +73,17 @@ func _physics_process(_delta: float) -> void:
 
 func get_cooldown_percent() -> float:
 	var now = Time.get_ticks_msec() / 1000.0
-	var progress = (now - last_shot_time) / shoot_cooldown
+	var progress = (now - LastShotTime) / ShootCooldown
 	return clamp(progress, 0.0, 1.0)
 
-#func try_shoot():
+#func try_Shoot():
 	#var now = Time.get_ticks_msec() / 1000.0  # convert ms → seconds
 #
-	#if now - last_shot_time >= shoot_cooldown:
-		#shoot()
-		#last_shot_time = now
+	#if now - LastShotTime >= Shoot_cooldown:
+		#Shoot()
+		#LastShotTime = now
 
-func shoot():
+func Shoot():
 	var bullet = preload("res://Scenes/bullet.tscn").instantiate()
 	bullet.global_position = PlayerHitbox.global_position
 	bullet.direction = MouseDir
@@ -86,8 +91,8 @@ func shoot():
 	get_tree().get_current_scene().add_child(bullet)
 
 func take_damage(amount: float):
-	health -= amount
-	if health < 0.1:
+	Health -= amount
+	if Health < 0.1:
 		queue_free()
 
 func LevelUp():
@@ -117,12 +122,28 @@ func InvButtonPressed():
 		target_pos,
 		AnimSpeed # animation duration (seconds)
 	)
-func UseAbility(AbilityID):
-	match AbilityID:
-		"shoot":
-			shoot()
+func UseAbility(Id: String) -> void:
+	print("Use ability")
 
-func register_ability(ability: AbilityData):
+	if not AbilityTimers.has(Id):
+		print("No id in AbilityTimers")
+		return
+
+	var Data = AbilityTimers[Id]
+	var Now := Time.get_ticks_msec() / 1000.0
+
+	if Now - Data["last_used"] < Data["cooldown"]:
+		return
+
+	Data["last_used"] = Now
+
+	match Id:
+		"Shoot":
+			Shoot()
+		_:
+			push_warning("UseAbility: Unknown ability id -> " + Id)
+
+func RegisterAbility(ability: AbilityData):
 	if ability.slot == "Passive":
 		PassiveAbilities.append(ability)
 		return
@@ -136,9 +157,11 @@ func register_ability(ability: AbilityData):
 		"last_used": -999.0
 	}
 
-func trigger_slot(slot_name: String):
+func TriggerSlot(slot_name: String):
+	print("triggetslot func")
 	var ability: AbilityData = AbilitySlots[slot_name]
 	if not ability:
+		print("Not ability")
 		return
-
+	print("ability")
 	UseAbility(ability.id)
