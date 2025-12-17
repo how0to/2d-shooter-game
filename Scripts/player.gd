@@ -7,6 +7,8 @@ extends CharacterBody2D
 
 @export var StartingAbilities: Array[AbilityData] = [preload("uid://ob8a14jt6xfa")]
 
+signal LevelUpChoiceMade(choice)
+
 const SPEED = 120.0
 const BulletSpeed = 1000
 const JUMP_VELOCITY = -400.0
@@ -23,6 +25,7 @@ var InvTween: Tween
 var AnimSpeed = 0.125
 var xp = 0
 var ReqXp = 100
+var WaitForLevelUpInput := false
 var AbilitySlots := {"Main": null, "Secondary": null, "Utility": null}
 var PassiveAbilities: Array[AbilityData] = []
 var AbilityTimers := {}
@@ -38,6 +41,15 @@ func _ready():
 		RegisterAbility(Ability)
 
 func _input(Event: InputEvent) -> void:
+	if WaitForLevelUpInput:
+		if Event.is_action_pressed("Select1"):
+			LevelUpChoiceMade.emit(1)
+		elif Event.is_action_pressed("Select2"):
+			LevelUpChoiceMade.emit(2)
+		elif Event.is_action_pressed("Select3"):
+			LevelUpChoiceMade.emit(3)
+		return # prevent normal gameplay input while paused
+		
 	if Event.is_action_pressed("Main"):
 		print("Main pressed")
 		TriggerSlot("Main")
@@ -97,6 +109,7 @@ func take_damage(amount: float):
 
 func LevelUp():
 	level += 1
+	var AbilityTemplate = preload("uid://b7sfort6qr2pp")
 	get_tree().paused = true
 
 func InvButtonPressed():
