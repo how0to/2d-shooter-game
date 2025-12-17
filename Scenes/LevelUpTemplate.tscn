@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://b7sfort6qr2pp"]
+[gd_scene load_steps=7 format=3 uid="uid://d2vikwxu8i1qr"]
 
 [ext_resource type="FontFile" uid="uid://0jl47ou1vqwn" path="res://assets/fonts/PixelOperator8-Bold.ttf" id="1_4q10p"]
+[ext_resource type="Script" uid="uid://dm70mmhj0w6xv" path="res://Resources/LevelUpTemplate.gd" id="1_u7q53"]
 [ext_resource type="FontFile" uid="uid://bjlmskh5nlehy" path="res://assets/fonts/PixelOperator8.ttf" id="2_u7q53"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h7d05"]
@@ -31,6 +32,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_u7q53")
 
 [node name="EntireThing" type="ColorRect" parent="."]
 layout_mode = 0
@@ -79,6 +81,13 @@ theme_override_font_sizes/font_size = 8
 text = "Ability Description"
 autowrap_mode = 3
 
+[node name="Button" type="Button" parent="EntireThing/Ability1"]
+layout_mode = 0
+offset_left = -4.0
+offset_top = -6.0
+offset_right = 160.0
+offset_bottom = 318.0
+
 [node name="Ability2" type="Panel" parent="EntireThing"]
 layout_mode = 0
 offset_left = 339.0
@@ -119,6 +128,13 @@ theme_override_font_sizes/font_size = 8
 text = "Ability Description"
 autowrap_mode = 3
 
+[node name="Button2" type="Button" parent="EntireThing/Ability2"]
+layout_mode = 0
+offset_left = -5.0
+offset_top = -6.0
+offset_right = 159.0
+offset_bottom = 318.0
+
 [node name="Ability3" type="Panel" parent="EntireThing"]
 layout_mode = 0
 offset_left = 564.0
@@ -158,3 +174,10 @@ theme_override_fonts/font = ExtResource("2_u7q53")
 theme_override_font_sizes/font_size = 8
 text = "Ability Description"
 autowrap_mode = 3
+
+[node name="Button3" type="Button" parent="EntireThing/Ability3"]
+layout_mode = 0
+offset_left = -6.0
+offset_top = -7.0
+offset_right = 158.0
+offset_bottom = 317.0

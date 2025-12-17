@@ -24,11 +24,12 @@ var InvClosedPos: Vector2
 var InvTween: Tween
 var AnimSpeed = 0.125
 var xp = 0
-var ReqXp = 100
+var ReqXp = 10
 var WaitForLevelUpInput := false
 var AbilitySlots := {"Main": null, "Secondary": null, "Utility": null}
 var PassiveAbilities: Array[AbilityData] = []
 var AbilityTimers := {}
+var CurrentLevelUpAbilities: Array[AbilityData] = []
 
 signal player_spawned(player)
 
@@ -42,16 +43,22 @@ func _ready():
 
 func _input(Event: InputEvent) -> void:
 	if WaitForLevelUpInput:
+		var index := -1
+
 		if Event.is_action_pressed("Select1"):
-			LevelUpChoiceMade.emit(1)
+			index = 0
 		elif Event.is_action_pressed("Select2"):
-			LevelUpChoiceMade.emit(2)
+			index = 1
 		elif Event.is_action_pressed("Select3"):
-			LevelUpChoiceMade.emit(3)
-		return # prevent normal gameplay input while paused
+			index = 2
+
+		if index != -1 and index < CurrentLevelUpAbilities.size():
+			_on_ability_chosen(CurrentLevelUpAbilities[index])
+
+		return # block normal gameplay input
+
 		
 	if Event.is_action_pressed("Main"):
-		print("Main pressed")
 		TriggerSlot("Main")
 
 	if Event.is_action_pressed("AbilityKey1"):
@@ -59,6 +66,19 @@ func _input(Event: InputEvent) -> void:
 
 	if Event.is_action_pressed("AbilityKey2"):
 		TriggerSlot("Utility")
+
+func get_random_abilities(count := 3) -> Array[AbilityData]:
+	var pool := Data.AbilityPool.duplicate()
+
+	pool.shuffle()
+
+	var results: Array[AbilityData] = []
+
+	while results.size() < count and pool.size() > 0:
+		var ability = pool.pop_back()
+		results.append(ability)
+
+	return results
 
 func _physics_process(_delta: float) -> void:
 	MouseDir = (get_global_mouse_position() - global_position).normalized()
@@ -108,9 +128,28 @@ func take_damage(amount: float):
 		queue_free()
 
 func LevelUp():
+	print("halos")
 	level += 1
-	var AbilityTemplate = preload("uid://b7sfort6qr2pp")
 	get_tree().paused = true
+	print("GAME PAUSED:", get_tree().paused)
+
+	WaitForLevelUpInput = true
+
+	var picker = preload("uid://b7sfort6qr2pp").instantiate()
+	picker.pause_mode = 2
+	get_tree().get_current_scene().add_child(picker)
+
+	CurrentLevelUpAbilities = get_random_abilities(3)
+	picker.setup(CurrentLevelUpAbilities)
+
+	picker.choice_made.connect(_on_ability_chosen)
+
+func _on_ability_chosen(ability: AbilityData) -> void:
+	RegisterAbility(ability)
+	CurrentLevelUpAbilities.clear()
+	WaitForLevelUpInput = false
+	get_tree().paused = false
+
 
 func InvButtonPressed():
 	InvOpen = !InvOpen
@@ -137,10 +176,7 @@ func InvButtonPressed():
 		AnimSpeed # animation duration (seconds)
 	)
 func UseAbility(Id: String) -> void:
-	print("Use ability")
-
 	if not AbilityTimers.has(Id):
-		print("No id in AbilityTimers")
 		return
 
 	var Data = AbilityTimers[Id]
@@ -172,10 +208,7 @@ func RegisterAbility(ability: AbilityData):
 	}
 
 func TriggerSlot(slot_name: String):
-	print("triggetslot func")
 	var ability: AbilityData = AbilitySlots[slot_name]
 	if not ability:
-		print("Not ability")
 		return
-	print("ability")
 	UseAbility(ability.id)
