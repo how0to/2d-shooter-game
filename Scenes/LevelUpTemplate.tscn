@@ -1,0 +1,65 @@
+[gd_scene load_steps=4 format=3 uid="uid://b7sfort6qr2pp"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h7d05"]
+bg_color = Color(0, 0, 0, 0.5294118)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rkgup"]
+bg_color = Color(0, 0, 0, 0.5294118)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4q10p"]
+bg_color = Color(0, 0, 0, 0.5294118)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[node name="LevelUpTemplate" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(1.5, 1.5)
+
+[node name="EntireThing" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = -421.0
+offset_top = -230.0
+offset_right = 493.0
+offset_bottom = 262.0
+color = Color(0.27387273, 0.27387273, 0.27387273, 0.4509804)
+
+[node name="ColorRect" type="Panel" parent="EntireThing"]
+layout_mode = 0
+offset_left = 116.0
+offset_top = 80.0
+offset_right = 274.0
+offset_bottom = 393.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_h7d05")
+
+[node name="ColorRect2" type="Panel" parent="EntireThing"]
+layout_mode = 0
+offset_left = 339.0
+offset_top = 81.0
+offset_right = 497.0
+offset_bottom = 394.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_rkgup")
+
+[node name="ColorRect3" type="Panel" parent="EntireThing"]
+layout_mode = 0
+offset_left = 564.0
+offset_top = 81.0
+offset_right = 722.0
+offset_bottom = 394.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_4q10p")

@@ -97,6 +97,7 @@ func take_damage(amount: float):
 
 func LevelUp():
 	level += 1
+	get_tree().paused = true
 
 func InvButtonPressed():
 	InvOpen = !InvOpen
