@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="AbilityData" load_steps=3 format=3 uid="uid://dm74nbhp2i2u6"]
+
+[ext_resource type="Texture2D" uid="uid://c41kipiq0w011" path="res://assets/sprites/DualBulletIcon.png" id="1_0cca8"]
+[ext_resource type="Script" uid="uid://b3h4whk8thsit" path="res://Resources/AbilityData.gd" id="1_bwi88"]
+
+[resource]
+script = ExtResource("1_bwi88")
+id = "DualBullets"
+icon = ExtResource("1_0cca8")
+description = "Shoot out 2 bullets"
+ProjectileSpeed = 400.0
+slot = "Main"
+metadata/_custom_type_script = "uid://b3h4whk8thsit"

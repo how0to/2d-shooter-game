@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="AbilityData" load_steps=3 format=3 uid="uid://6k81wj73e850"]
+
+[ext_resource type="Texture2D" uid="uid://cq648t5wcsqfk" path="res://assets/sprites/TripleBulletIcon.png" id="1_edb8j"]
+[ext_resource type="Script" uid="uid://b3h4whk8thsit" path="res://Resources/AbilityData.gd" id="1_ohshc"]
+
+[resource]
+script = ExtResource("1_ohshc")
+id = "TripleBullets"
+icon = ExtResource("1_edb8j")
+cooldown = 0.5
+description = "Shoot out 3 bullets"
+ProjectileSpeed = 1000.0
+slot = "Main"
+metadata/_custom_type_script = "uid://b3h4whk8thsit"
