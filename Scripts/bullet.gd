@@ -1,9 +1,10 @@
 extends Node2D
 
-@export var speed: float = 1000.0
 @onready var hitbox: Area2D = $Hitbox
+var BulletAbility = preload("uid://ob8a14jt6xfa")
+@export var speed: float = BulletAbility.ProjectileSpeed
 var damage = 50
-var pierce = 10
+var pierce = 1
 var direction: Vector2 = Vector2.ZERO
 
 func _physics_process(delta: float) -> void:
