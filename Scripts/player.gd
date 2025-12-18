@@ -38,9 +38,9 @@ func _ready():
 	Data.register_player(self)
 	player_spawned.emit(self)
 	InvClosedPos = InvUI.position
+	get_viewport().set_input_as_handled()
 	for Ability in StartingAbilities:
 		RegisterAbility(Ability)
-
 func _input(Event: InputEvent) -> void:
 	if WaitForLevelUpInput:
 		var index := -1
@@ -128,14 +128,13 @@ func take_damage(amount: float):
 		queue_free()
 
 func LevelUp():
-	print("halos")
 	level += 1
 	get_tree().paused = true
 	print("GAME PAUSED:", get_tree().paused)
 
 	WaitForLevelUpInput = true
 
-	var picker = preload("uid://b7sfort6qr2pp").instantiate()
+	var picker = preload("uid://d2vikwxu8i1qr").instantiate()
 	picker.pause_mode = 2
 	get_tree().get_current_scene().add_child(picker)
 
