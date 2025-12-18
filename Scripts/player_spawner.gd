@@ -10,3 +10,4 @@ func _ready() -> void:
 	Player.global_position = Vector2(0,0)
 	#Player.global_position = SpawnLocation
 	Player.player_spawned.emit(Player)
+	Data.register_player(Player, true)

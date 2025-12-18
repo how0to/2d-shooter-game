@@ -22,6 +22,7 @@ func add_score(amount: int):
 
 func register_player(player: CharacterBody2D, is_local := true):
 	if player in players:
+		print("Player is already in players list")
 		return
 
 	players.append(player)
@@ -39,8 +40,16 @@ func unregister_player(player: CharacterBody2D):
 	player_unregistered.emit(player)
 
 func _process(_delta: float) -> void:
+	print(str(players))
 	for player in players:
 		if player.xp >= player.ReqXp:
+			print(player.xp)
+			print(player.ReqXp)
 			player.LevelUp()
 			player.xp -= player.ReqXp
 			player.ReqXp *= 1.05
+		print(player.xp)
+		print(player.ReqXp)
+
+func _ready():
+	get_viewport().set_input_as_handled()
