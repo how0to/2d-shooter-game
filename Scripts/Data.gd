@@ -41,13 +41,15 @@ func unregister_player(player: CharacterBody2D):
 
 func _process(_delta: float) -> void:
 	print(str(players))
+	
 	for player in players:
 		if player.xp >= player.ReqXp:
 			print(player.xp)
 			print(player.ReqXp)
-			player.LevelUp()
 			player.xp -= player.ReqXp
 			player.ReqXp *= 1.05
+			player.LevelUp()
+		player.xp += 1
 		print(player.xp)
 		print(player.ReqXp)
 

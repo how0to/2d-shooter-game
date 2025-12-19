@@ -24,7 +24,7 @@ var InvClosedPos: Vector2
 var InvTween: Tween
 var AnimSpeed = 0.125
 var xp = 0
-var ReqXp = 10
+var ReqXp = 100
 var WaitForLevelUpInput := false
 var AbilitySlots := {"Main": null, "Secondary": null, "Utility": null}
 var PassiveAbilities: Array[AbilityData] = []
@@ -41,6 +41,7 @@ func _ready():
 	get_viewport().set_input_as_handled()
 	for Ability in StartingAbilities:
 		RegisterAbility(Ability)
+		
 func _input(Event: InputEvent) -> void:
 	if WaitForLevelUpInput:
 		var index := -1
@@ -115,12 +116,39 @@ func get_cooldown_percent() -> float:
 		#Shoot()
 		#LastShotTime = now
 
-func Shoot():
+#func Shoot():
+	#var bullet = preload("res://Scenes/bullet.tscn").instantiate()
+	#bullet.global_position = PlayerHitbox.global_position
+	#bullet.direction = MouseDir
+	#bullet.rotation = bullet.direction.angle()
+	#get_tree().get_current_scene().add_child(bullet)
+
+func _spawn_bullet(angle: float) -> void:
 	var bullet = preload("res://Scenes/bullet.tscn").instantiate()
 	bullet.global_position = PlayerHitbox.global_position
-	bullet.direction = MouseDir
-	bullet.rotation = bullet.direction.angle()
+
+	var dir := Vector2.RIGHT.rotated(angle)
+	bullet.direction = dir
+	bullet.rotation = angle
+
 	get_tree().get_current_scene().add_child(bullet)
+	
+func Shoot(bullet_count: int = 1, spread_degrees: float = 0.0):
+	var base_dir := MouseDir.normalized()
+	var base_angle := base_dir.angle()
+
+	# Single bullet → no spread
+	if bullet_count <= 1:
+		_spawn_bullet(base_angle)
+		return
+
+	var spread_rad := deg_to_rad(spread_degrees)
+	var step := spread_rad / float(bullet_count - 1)
+	var start_angle := base_angle - spread_rad / 2.0
+
+	for i in bullet_count:
+		var angle := start_angle + step * i
+		_spawn_bullet(angle)
 
 func take_damage(amount: float):
 	Health -= amount
@@ -135,13 +163,13 @@ func LevelUp():
 	WaitForLevelUpInput = true
 
 	var picker = preload("uid://d2vikwxu8i1qr").instantiate()
-	picker.pause_mode = 2
+	picker.process_mode = Node.PROCESS_MODE_ALWAYS
 	get_tree().get_current_scene().add_child(picker)
 
 	CurrentLevelUpAbilities = get_random_abilities(3)
 	picker.setup(CurrentLevelUpAbilities)
 
-	picker.choice_made.connect(_on_ability_chosen)
+	picker.LevelUpChoiceMade.connect(_on_ability_chosen)
 
 func _on_ability_chosen(ability: AbilityData) -> void:
 	RegisterAbility(ability)
